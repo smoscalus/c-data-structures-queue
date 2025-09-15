@@ -12,7 +12,7 @@ typedef struct {
 
 MyQuaue createQue(int len){
    MyQuaue q;
-   q.buf = malloc(sizeof(char) * len);
+   q.buf = malloc(len);
    q.len = len;
    q.ActualLen = 0;
    q.callList = 0;
@@ -23,16 +23,18 @@ MyQuaue createQue(int len){
 
 void Enqueue(MyQuaue* q, char res[])
 {   
-    if ( q->ActualLen > q->len)
+    if (q->ActualLen + strlen(res) + 1 > q->len)
     {
-        q->buf = realloc(q->buf, sizeof(char) * q->len * 2);
         q->len = q->len * 2;
+        q->buf = realloc(q->buf, q->len);
     }
     strcpy(q->buf + q->ActualLen,res);
     
     q->ActualLen += strlen(res) + 1;
     q->callList++;
 }
+
+
 
 void freeQueue(MyQuaue* q){
     if (q->buf){
@@ -43,9 +45,13 @@ void freeQueue(MyQuaue* q){
         
 int main()
 {
-    MyQuaue q = createQue(20);
+    MyQuaue q = createQue(3);
     char* res = "hallo";
     Enqueue(&q, res);
+    printf("%s",res);
+    Enqueue(&q, res);
+    printf("%s",res);
+    
     freeQueue(&q);
 
     return 0;
