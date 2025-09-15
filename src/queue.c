@@ -34,6 +34,22 @@ void Enqueue(MyQuaue* q, char res[])
     q->callList++;
 }
 
+void Dequeue(MyQuaue* q, char res[])
+{   
+    if (q->callList < 0)
+        return;
+
+
+    int i = 0;
+    while(q->buf[i] != '\0'){
+        res[i] = q->buf[i];
+        i++;
+    }
+    res[i] = '\0';
+    i++;
+
+    memmove(q->buf,q->buf + i,q->ActualLen - i);
+}
 
 
 void freeQueue(MyQuaue* q){
@@ -46,11 +62,11 @@ void freeQueue(MyQuaue* q){
 int main()
 {
     MyQuaue q = createQue(3);
-    char* res = "hallo";
-    Enqueue(&q, res);
-    printf("%s",res);
-    Enqueue(&q, res);
-    printf("%s",res);
+    char res[60];
+    Enqueue(&q, "hallo");
+    Enqueue(&q, "world");
+    Dequeue(&q, res);
+
     
     freeQueue(&q);
 
