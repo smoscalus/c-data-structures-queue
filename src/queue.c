@@ -29,14 +29,14 @@ void Enqueue(MyQuaue* q, char res[])
         q->buf = realloc(q->buf, q->len);
     }
     strcpy(q->buf + q->ActualLen,res);
-    
+
     q->ActualLen += strlen(res) + 1;
     q->callList++;
 }
 
 void Dequeue(MyQuaue* q, char res[])
 {   
-    if (q->callList < 0)
+    if (q->callList <= 0)
         return;
 
 
@@ -49,6 +49,7 @@ void Dequeue(MyQuaue* q, char res[])
     i++;
 
     memmove(q->buf,q->buf + i,q->ActualLen - i);
+    q->callList--;
 }
 
 
