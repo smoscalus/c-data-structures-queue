@@ -75,25 +75,3 @@ void freeQueue(MyQueue* q){
 
 }
         
-int main()
-{
-    MyQueue q = createQue(3);
-    char res[60];
-    Enqueue(&q, "hallo");
-    Enqueue(&q, "world");
-    printf("%d \n",isEmptyQue(&q));
-
-    printf("%d \n",sizeQueue(&q));
-    
-    printf("%s \n",Peekqueue(&q));
-    Dequeue(&q, res);
-
-    printf("%s \n",Peekqueue(&q));
-    Dequeue(&q, res);
-
-    printf("%d \n",sizeQueue(&q));
-    printf("%d \n",isEmptyQue(&q));
-    freeQueue(&q);
-
-    return 0;
-}
