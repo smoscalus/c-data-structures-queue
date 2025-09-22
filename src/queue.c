@@ -7,7 +7,7 @@ typedef struct {
     char* buf;
     int len;
     int ActualLen;
-    int callList;
+    int size;
 } MyQueue;
 
 MyQueue createQue(int len){
@@ -15,7 +15,7 @@ MyQueue createQue(int len){
    q.buf = malloc(len);
    q.len = len;
    q.ActualLen = 0;
-   q.callList = 0;
+   q.size = 0;
 
    return q;
 }
@@ -31,30 +31,27 @@ void Enqueue(MyQueue* q, char res[])
     strcpy(q->buf + q->ActualLen,res);
 
     q->ActualLen += strlen(res) + 1;
-    q->callList++;
+    q->size++;
 }
 
 void Dequeue(MyQueue* q, char res[])
 {   
-    if (q->callList <= 0)
+    if (q->size <= 0)
         return;
 
 
-    int i = 0;
-    while(q->buf[i] != '\0'){
-        res[i] = q->buf[i];
-        i++;
-    }
-    res[i] = '\0';
-    i++;
+    int len = strlen(q->buf);
+    strcpy(res, q->buf);
 
-    memmove(q->buf,q->buf + i,q->ActualLen - i);
-    q->callList--;
+
+    memmove(q->buf,q->buf + len + 1,q->ActualLen - len - 1);
+    q->ActualLen = len + 1;
+    q->size--;
 }
 
 char* Peekqueue(MyQueue* q)
 {
-    if (q->callList <= 0){
+    if (q->size <= 0){
         printf("Overflow \n");
         return NULL;
     }
@@ -63,12 +60,12 @@ char* Peekqueue(MyQueue* q)
 
 int isEmptyQue(MyQueue* q)
 {
-   return (q->callList > 0);
+   return (q->size == 0);
 }
 
 int sizeQueue(MyQueue* q)
 {
-  return q->callList;
+  return q->size;
 }
 
 void freeQueue(MyQueue* q){
@@ -95,7 +92,7 @@ int main()
     Dequeue(&q, res);
 
     printf("%d \n",sizeQueue(&q));
-
+    printf("%d \n",isEmptyQue(&q));
     freeQueue(&q);
 
     return 0;
