@@ -8,10 +8,10 @@ typedef struct {
     int len;
     int ActualLen;
     int callList;
-} MyQuaue;
+} MyQueue;
 
-MyQuaue createQue(int len){
-   MyQuaue q;
+MyQueue createQue(int len){
+   MyQueue q;
    q.buf = malloc(len);
    q.len = len;
    q.ActualLen = 0;
@@ -21,7 +21,7 @@ MyQuaue createQue(int len){
 }
 
 
-void Enqueue(MyQuaue* q, char res[])
+void Enqueue(MyQueue* q, char res[])
 {   
     if (q->ActualLen + strlen(res) + 1 > q->len)
     {
@@ -34,7 +34,7 @@ void Enqueue(MyQuaue* q, char res[])
     q->callList++;
 }
 
-void Dequeue(MyQuaue* q, char res[])
+void Dequeue(MyQueue* q, char res[])
 {   
     if (q->callList <= 0)
         return;
@@ -52,8 +52,26 @@ void Dequeue(MyQuaue* q, char res[])
     q->callList--;
 }
 
+char* Peekqueue(MyQueue* q)
+{
+    if (q->callList <= 0){
+        printf("Overflow \n");
+        return NULL;
+    }
+    return q->buf;
+}
 
-void freeQueue(MyQuaue* q){
+int isEmptyQue(MyQueue* q)
+{
+   return (q->callList > 0);
+}
+
+int sizeQueue(MyQueue* q)
+{
+  return q->callList;
+}
+
+void freeQueue(MyQueue* q){
     if (q->buf){
         free(q->buf);   
     }
@@ -62,13 +80,22 @@ void freeQueue(MyQuaue* q){
         
 int main()
 {
-    MyQuaue q = createQue(3);
+    MyQueue q = createQue(3);
     char res[60];
     Enqueue(&q, "hallo");
     Enqueue(&q, "world");
+    printf("%d \n",isEmptyQue(&q));
+
+    printf("%d \n",sizeQueue(&q));
+    
+    printf("%s \n",Peekqueue(&q));
     Dequeue(&q, res);
 
-    
+    printf("%s \n",Peekqueue(&q));
+    Dequeue(&q, res);
+
+    printf("%d \n",sizeQueue(&q));
+
     freeQueue(&q);
 
     return 0;
