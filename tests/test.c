@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "../include/myqueue.h"
 #include "string.h"
+#include "stdlib.h"
 
 #define TEST_EQ_STR(exp,act){\
     if (strcmp(exp, act) != 0){\
@@ -17,6 +18,14 @@
     else { \
         printf("[PASS] %s:%d\n", __FILE__, __LINE__); \
     } \
+    }
+#define TEST_EQ_PTR(exp,act){\
+        if (exp != act){ \
+            printf ("[FAIL] %s:%d: expected %p, got %p\n",  __FILE__, __LINE__, (exp), (act));\
+        }\
+        else { \
+            printf("[PASS] %s:%d\n", __FILE__, __LINE__); \
+        } \
     }
 
 void test_Enqueue_Dequeue()
@@ -67,7 +76,15 @@ void test_sizeQueue()
     int n2 = sizeQueue(&q);
     TEST_EQ_INT(0,n2);
 }
+void test_freeQueue()
+{
+    MyQueue q = createQue(50);
+    q.buf = malloc(sizeof(char) * 10);
+    freeQueue(&q);
+    
+    TEST_EQ_PTR(NULL, q.buf);
 
+}
 
 int main()
 {
@@ -75,5 +92,6 @@ int main()
     test_Peekqueue();
     test_isEmptyQue();
     test_sizeQueue();
+    test_freeQueue();
     return 1;
 }
