@@ -70,7 +70,8 @@ int sizeQueue(MyQueue* q)
 
 void freeQueue(MyQueue* q){
     if (q->buf){
-        free(q->buf);   
+        free(q->buf);  
+        q->buf = NULL; 
     }
 
 }
