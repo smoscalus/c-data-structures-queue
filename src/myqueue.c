@@ -5,12 +5,12 @@
 
 typedef struct {
     char* buf;
-    int len;
-    int ActualLen;
-    int size;
+    unsigned int len;
+    unsigned int ActualLen;
+    unsigned int size;
 } MyQueue;
 
-MyQueue createQue(int len){
+MyQueue createQue(unsigned int len){
    MyQueue q;
    q.buf = malloc(len);
    q.len = len;
