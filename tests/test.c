@@ -11,20 +11,28 @@
     } \
     }
 
-int test_Enqueue_Dequeue()
+void test_Enqueue_Dequeue()
 {
     MyQueue q = createQue(50);
     Enqueue(&q, "hello");
     char res[10];
     Dequeue(&q, res);
     TEST_EQ_STR("hello", res);
-    return 1;
+}
+void test_Peekqueue()
+{
+    MyQueue q = createQue(50);
+    Enqueue(&q, "hello");
+    char* res = Peekqueue(&q);
+    
+    TEST_EQ_STR("hello", res);
+
 }
 
 
 int main()
 {
-    int res = test_Enqueue_Dequeue();
-    printf("%d", res);
+    test_Enqueue_Dequeue();
+    test_Peekqueue();
     return 1;
 }
